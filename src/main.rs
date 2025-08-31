@@ -8,7 +8,7 @@ const URL:&str = "https://github.com/SharmaDevanshu089/AutoCrate/releases/downlo
 const SRS:&str = "There has been a Serious error with the program please use a different version. Crashing";
 const LOGFILE:&str = "install.log";
 fn main() {
-    let out = String::from(get_directories("tmp").to_string_lossy());
+    let out = String::from(get_directories("one").to_string_lossy());
     println!("{}",out);
 }
 pub fn get_directories(type_of:&str) -> PathBuf{
