@@ -3,14 +3,28 @@ use std::{fmt::format, io, path::PathBuf, process::Output};
 use reqwest;
 use std::fs::OpenOptions;
 use std::io::Write;
+use std::process::Command;
+use std::process::exit;
 
 const URL:&str = "https://github.com/SharmaDevanshu089/AutoCrate/releases/download/v0.9.7/autocrate-windows-x86-64.zip";
 const SRS:&str = "There has been a Serious error with the program please use a different version. Crashing";
 const LOGFILE:&str = "install.log";
 fn main() {
-    let out = String::from(get_directories("one").to_string_lossy());
-    println!("{}",out);
+    check_cargo();
 }
+fn check_cargo(){
+    let instruction = "cargo";
+    let status = Command::new(instruction).arg("--version").status().expect(SRS);
+    if !status.success() {
+        println!("Cannot Continue Cargo is not installed or not set to path variable. Please install cargo first");
+        exit(0);
+    }
+}
+fn download_zip(){
+    let url = URL;
+    let path =  String::from(get_directories("tmp").to_string_lossy());
+}
+
 pub fn get_directories(type_of:&str) -> PathBuf{
     let app = directories::ProjectDirs::from("io", "sharmadevanshu089", "autocrate-install").expect(SRS);
     let temp_path = app.cache_dir();
@@ -22,6 +36,7 @@ pub fn get_directories(type_of:&str) -> PathBuf{
     }
     return out;
 }
+
 fn log_error(text:&str){
     let mut log_file = OpenOptions::new().create(true).append(true).open(LOGFILE).expect("Unable to Create Log File");
     writeln!(&mut log_file,"{}",text).expect("Unable to write a error into log file");
