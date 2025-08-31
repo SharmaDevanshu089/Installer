@@ -28,6 +28,7 @@ fn copy_to_location(mut old_binary:zip::read::ZipFile<'_, File>) {
     let mut executable_dir = create_dir_all(appdata_path.parent().expect("Unable to push the binary into the systen")).expect("Unable to push binary in system");
     let mut executable = fs::File::create(appdata_path).expect("Cannot Create new executable");
     copy(&mut old_binary, &mut executable).expect("Unable to Write into new executable");
+    println!("File Sucessfully Installed")
 }
 fn unzip(){
     let mut path =  get_directories("tmp");
