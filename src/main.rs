@@ -1,10 +1,12 @@
 use directories;
+use reqwest::blocking::Response;
 use std::{fmt::format, io, path::PathBuf, process::Output};
 use reqwest;
 use std::fs::OpenOptions;
 use std::io::Write;
 use std::process::Command;
 use std::process::exit;
+use std::fs::File;
 
 const URL:&str = "https://github.com/SharmaDevanshu089/AutoCrate/releases/download/v0.9.7/autocrate-windows-x86-64.zip";
 const SRS:&str = "There has been a Serious error with the program please use a different version. Crashing";
@@ -25,8 +27,14 @@ fn download_zip(){
     let url = URL;
     let mut path =  get_directories("tmp");
     path.push("download.zip");
-    let out = String::from(path.to_str().expect(SRS));
-    println!("{}", out);
+    let mut file = File::create(path).expect("Unable to Create the donwloaded file");
+    let zip = reqwest::blocking::get(url);
+    let mut data;
+    match zip {
+        Ok(zip) => {println!("Sucessfully Donwloaded");data = zip;},
+        Err(zip) => {println!("There was a problem with download");log_error(&zip.to_string());exit(0);}
+    }
+    file.write_all(&data.bytes().expect("I think the data is Corrupted")).expect("Could not write ");
 }
 
 pub fn get_directories(type_of:&str) -> PathBuf{
