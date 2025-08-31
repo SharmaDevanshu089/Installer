@@ -7,6 +7,7 @@ use std::io::Write;
 use std::process::Command;
 use std::process::exit;
 use std::fs::File;
+use std::fs::create_dir_all;
 
 const URL:&str = "https://github.com/SharmaDevanshu089/AutoCrate/releases/download/v0.9.7/autocrate-windows-x86-64.zip";
 const SRS:&str = "There has been a Serious error with the program please use a different version. Crashing";
@@ -26,7 +27,9 @@ fn check_cargo(){
 fn download_zip(){
     let url = URL;
     let mut path =  get_directories("tmp");
+    create_dir_all(path.clone()).expect("Unable to Create Parent Directiory");
     path.push("download.zip");
+    println!("{}", path.to_string_lossy());
     let mut file = File::create(path).expect("Unable to Create the donwloaded file");
     let zip = reqwest::blocking::get(url);
     let mut data;
