@@ -1,6 +1,8 @@
 [package]
 name = "Installer"
-version = "0.1.0"
+version = "0.9.7"
 edition = "2024"
 
 [dependencies]
+reqwest = "0.12.23"
+directories = "6.0.0"
