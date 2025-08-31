@@ -11,6 +11,7 @@ const SRS:&str = "There has been a Serious error with the program please use a d
 const LOGFILE:&str = "install.log";
 fn main() {
     check_cargo();
+    download_zip();
 }
 fn check_cargo(){
     let instruction = "cargo";
@@ -22,7 +23,10 @@ fn check_cargo(){
 }
 fn download_zip(){
     let url = URL;
-    let path =  String::from(get_directories("tmp").to_string_lossy());
+    let mut path =  get_directories("tmp");
+    path.push("download.zip");
+    let out = String::from(path.to_str().expect(SRS));
+    println!("{}", out);
 }
 
 pub fn get_directories(type_of:&str) -> PathBuf{
