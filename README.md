@@ -199,7 +199,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 - **🐛 Issues**: [GitHub Issues](https://github.com/SharmaDevanshu089/AutoCrate/issues)
 - **💬 Discussions**: [GitHub Discussions](https://github.com/SharmaDevanshu089/AutoCrate/discussions)
-- **📧 Email**: [your-email@domain.com](mailto:your-email@domain.com)
+- **📧 Email**: [EMAIL](mailto:sharma.devanshu089@gmail.com)
 
 ***
 
