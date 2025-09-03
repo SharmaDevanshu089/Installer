@@ -1,5 +1,6 @@
 use directories;
 use reqwest::blocking::Response;
+use std::arch::x86_64::_MM_FROUND_NO_EXC;
 use std::fs;
 use std::path::PathBuf;
 use reqwest;
@@ -24,11 +25,27 @@ fn copy_to_location(mut old_binary:zip::read::ZipFile<'_, File>) {
     let appdata = env::var("APPDATA").expect("Unable to get a envirment variable, i hope yours is supported");
     let mut appdata_path = PathBuf::from(appdata);
     appdata_path.push(".autocrate");
+    let app_path = appdata_path.clone();
     appdata_path.push("autocrate.exe");
     let mut executable_dir = create_dir_all(appdata_path.parent().expect("Unable to push the binary into the systen")).expect("Unable to push binary in system");
     let mut executable = fs::File::create(appdata_path).expect("Cannot Create new executable");
     copy(&mut old_binary, &mut executable).expect("Unable to Write into new executable");
-    println!("File Sucessfully Installed")
+    println!("File Sucessfully Installed");
+    add_to_path(app_path);
+}
+fn add_to_path(app_path :PathBuf){
+    println!("Configuring System for install.");
+    let path_to_change = match env::var("Path"){
+        Ok(p) => p,
+        Err(p) => {log_error("Unable to Fetch Path");log_error("Unable to Fetch Path");exit(0);}
+    };
+    let folder_path = app_path.to_string_lossy();
+    let new_path = format!("{};{}",path_to_change,folder_path);
+    let status = Command::new("setx").arg("PATH").arg(new_path).status().expect("Unable to Set new Path");
+    if !status.success(){
+        println!("There has been a problem with your system.");
+        exit(0);
+    }
 }
 fn unzip(){
     let mut path =  get_directories("tmp");
