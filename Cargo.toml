@@ -11,5 +11,7 @@ zip = "4.6.0"
 #v0.1.0 Added basic functionality for Downloading and installing the file.
 #v0.2.0 Adding abiltiy to add to path to System.
 
+[build]
+rustflags = ["-C", "target-feature=+crt-static"]
 
 #Todo : Adding ability to Uninstall

@@ -3,6 +3,7 @@ use reqwest::blocking::Response;
 use std::arch::x86_64::_MM_FROUND_NO_EXC;
 use std::fs;
 use std::path::PathBuf;
+use std::process::ExitStatus;
 use reqwest;
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -58,9 +59,14 @@ fn unzip(){
 }
 fn check_cargo(){
     let instruction = "cargo";
-    let status = Command::new(instruction).arg("--version").status().expect(SRS);
-    if !status.success() {
-        println!("Cannot Continue Cargo is not installed or not set to path variable. Please install cargo first");
+    let status = Command::new(instruction).arg("--version").status();
+    let mut checker;
+    match status{
+        Ok(p) => checker = p,
+        Err(p) => {println!("Cargo not found please install it first."); exit(0);},
+    }
+    if !checker.success() {
+        println!("There has been some error with cargo.");
         exit(0);
     }
     download_zip();
