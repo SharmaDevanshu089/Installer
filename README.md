@@ -14,7 +14,7 @@
 | 📝 **Error Logging** | Logs all installation errors to a local file (`install.log`) |
 | ⚙️ **Cargo Dependency Check** | Validates Rust's Cargo tool is installed before running |
 | 🏠 **Environment-Aware Installation** | Copies extracted binary to user-specific directory in `%APPDATA%` on Windows |
-
+| 👤 **Adds to User Envirment Variable** | Adds the Binary to `Path` envirment variable for easy acess |
 
 ***
 
@@ -46,7 +46,7 @@ graph TD
     D --> E[Download Release ZIP]
     E --> F[Extract Binary]
     F --> G[Copy to AppData]
-    G --> H[Log Success]
+    G --> H[Add the Application to Path Variable]
     C --> I[Log Error]
     H --> J[Installation Complete]
     I --> J
