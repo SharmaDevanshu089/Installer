@@ -46,7 +46,7 @@ graph TD
     D --> E[Download Release ZIP]
     E --> F[Extract Binary]
     F --> G[Copy to AppData]
-    G --> H[Log Success]
+    G --> H[Add the Application to Path Variable]
     C --> I[Log Error]
     H --> J[Installation Complete]
     I --> J
