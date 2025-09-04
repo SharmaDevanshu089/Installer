@@ -15,7 +15,7 @@ use zip::ZipArchive;
 use std::env;
 use std::io::copy;
 
-const DEBUG:bool = true;
+const DEBUG:bool = false;
 const URL:&str = "https://github.com/SharmaDevanshu089/AutoCrate/releases/download/v0.9.9/v0.9.9.zip";
 const SRS:&str = "There has been a Serious error with the program please use a different version. Crashing";
 const LOGFILE:&str = "install.log";
