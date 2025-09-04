@@ -1,6 +1,6 @@
 [package]
 name = "Installer"
-version = "0.2.0"
+version = "0.4.1"
 edition = "2024"
 
 [dependencies]
@@ -10,7 +10,9 @@ zip = "4.6.0"
 iced = "0.13.1"
 
 #v0.1.0 Added basic functionality for Downloading and installing the file.
-#v0.2.0 Adding abiltiy to add to path to System.
-#v0.2.2 Updated Checker for Cargo
-#v0.3.0 Added Debug Checker
+#v0.2.0 Added abiltiy to add to path to System.
+#v0.2.2 Updated Checker for Cargo.
+#v0.3.0 Added Debug Checker.
+#v0.4.0 Added more relibale way to add to path using powershell commands.
+#v0.4.1 Update to TOML
 #Todo : Adding ability to Uninstall
