@@ -48,8 +48,23 @@ fn add_to_path(app_path :PathBuf){
         Err(p) => {log_error("Unable to Fetch Path");log_error("Unable to Fetch Path");exit(0);}
     };
     let folder_path = app_path.to_string_lossy();
+    if DEBUG {
+        let tmp = folder_path.clone();
+        println!("Folder_Path is {}", tmp);
+    }
     let new_path = format!("{};{}",path_to_change,folder_path);
-    let status = Command::new("setx").arg("PATH").arg(new_path).status().expect("Unable to Set new Path");
+    if DEBUG {
+        let tmp = new_path.clone();
+        println!("New Path : {}", tmp);
+    }
+    let ps_script = format!("[Environment]::SetEnvironmentVariable('PATH','{}','User')",new_path);
+    let status = Command::new("powershell")
+    .arg("-NoProfile")
+    .arg("-Command")
+    .arg(ps_script)
+    .status()
+    .expect("Unable to update PATH via PowerShell");
+    //let status = Command::new("setx").arg("PATH").arg(new_path).status().expect("Unable to Set new Path");
     if !status.success(){
         println!("There has been a problem with your system.");
         exit(0);
