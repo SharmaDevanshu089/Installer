@@ -15,6 +15,7 @@ use zip::ZipArchive;
 use std::env;
 use std::io::copy;
 
+const DEBUG:bool = true;
 const URL:&str = "https://github.com/SharmaDevanshu089/AutoCrate/releases/download/v0.9.9/v0.9.9.zip";
 const SRS:&str = "There has been a Serious error with the program please use a different version. Crashing";
 const LOGFILE:&str = "install.log";
@@ -24,10 +25,16 @@ fn main() {
 }
 fn copy_to_location(mut old_binary:zip::read::ZipFile<'_, File>) {
     let appdata = env::var("APPDATA").expect("Unable to get a envirment variable, i hope yours is supported");
-    let mut appdata_path = PathBuf::from(appdata);
+    let mut appdata_path = PathBuf::from(appdata.clone());
     appdata_path.push(".autocrate");
     let app_path = appdata_path.clone();
     appdata_path.push("autocrate.exe");
+    if DEBUG {
+        let tmp = appdata_path.clone();
+        let tmp2 = appdata.clone();
+        let tmp3 = app_path.clone();
+        println!("{} \n{}\n{}",tmp.to_string_lossy(),tmp2,tmp3.to_string_lossy());
+    }
     let mut executable_dir = create_dir_all(appdata_path.parent().expect("Unable to push the binary into the systen")).expect("Unable to push binary in system");
     let mut executable = fs::File::create(appdata_path).expect("Cannot Create new executable");
     copy(&mut old_binary, &mut executable).expect("Unable to Write into new executable");
@@ -52,6 +59,10 @@ fn unzip(){
     let mut path =  get_directories("tmp");
     create_dir_all(path.clone()).expect("Unable to Create Parent Directiory");
     path.push("download.zip");
+    if DEBUG {
+        let tmp = path.clone();
+        println!("The path to Old Zip : {}",tmp.to_string_lossy());
+    }
     let file = File::open(path).expect("Unable to open the Files");
     let mut achive_file = ZipArchive::new(file).expect("unable to extract achive ");
     let binary= ZipArchive::by_name(&mut achive_file,EXECUTIVE_NAME).expect("There was Problem extracting old binary");
@@ -62,7 +73,7 @@ fn check_cargo(){
     let status = Command::new(instruction).arg("--version").status();
     let mut checker;
     match status{
-        Ok(p) => checker = p,
+        Ok(p) => {checker = p;},
         Err(p) => {println!("Cargo not found please install it first."); exit(0);},
     }
     if !checker.success() {
@@ -76,7 +87,9 @@ fn download_zip() {
     let mut path =  get_directories("tmp");
     create_dir_all(path.clone()).expect("Unable to Create Parent Directiory");
     path.push("download.zip");
-    println!("{}", path.to_string_lossy());
+    if DEBUG{
+        println!("{}", path.to_string_lossy());
+    }
     let mut file = File::create(path.clone()).expect("Unable to Create the donwloaded file");
     let zip = reqwest::blocking::get(url);
     let mut data;
@@ -96,6 +109,10 @@ pub fn get_directories(type_of:&str) -> PathBuf{
     match type_of {
         "tmp" => out = temp_path.to_owned(),
         _ => log_error(&error_fix),
+    }
+    if DEBUG {
+        let tmp = out.clone();
+        println!("GETDIRECTORIES RESPONDED : {}",tmp.to_string_lossy())
     }
     return out;
 }
